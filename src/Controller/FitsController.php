@@ -36,6 +36,9 @@ class FitsController {
     $logger->pushHandler(new StreamHandler('/var/log/islandora/fits.log', Logger::DEBUG));
     $token = $request->headers->get('Authorization');
     $file_uri = $request->headers->get('Apix-Ldp-Resource');
+    $file_uri_pattern = "/https:\/\/gamma\.library\.yorku\.ca\/_flysystem\/fedora/";
+    $file_uri_replace = "http://beta.library.yorku.ca:8080/fcrepo/rest";
+    $file_uri = preg_replace($file_uri_pattern, $file_uri_replace, $file_uri);
     // If no file has been passed it probably because someone is testing the url from their browser.
     if (!$file_uri) {
       return new Response("<h2>The Fits microservice is up and running.</h2>");
